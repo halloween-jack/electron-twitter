@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, globalShortcut} = require('electron');
 
 module.exports = class FormWindow {
   constructor() {
@@ -9,9 +9,13 @@ module.exports = class FormWindow {
   start() {
     app.on('ready', () => {
       this.createWindow();
+      this.registerGlobalShortcut();
     });
     app.on('showForm', () => {
       this.window.show();
+    });
+    app.on('will-quit', () => {
+      globalShortcut.unregisterAll();
     });
   }
 
@@ -35,5 +39,16 @@ module.exports = class FormWindow {
     });
 
     this.window.loadURL(`file://${__dirname}/../../html/form.html`);
+  }
+
+  registerGlobalShortcut() {
+    const accelerator = 'CommandOrControl+Shift+N';
+    if (globalShortcut.isRegistered(accelerator)) {
+      return;
+    }
+
+    globalShortcut.register(accelerator, () => {
+      this.window.show();
+    });
   }
 };
