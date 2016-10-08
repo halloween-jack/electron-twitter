@@ -1,4 +1,4 @@
-const {app, BrowerWindow} = require('electron');
+const {app, BrowserWindow} = require('electron');
 
 module.exports = class FormWindow {
   constructor() {
@@ -13,7 +13,7 @@ module.exports = class FormWindow {
   }
 
   createWindow() {
-    this.window = new BrowerWindow({
+    this.window = new BrowserWindow({
       title: 'ツイート',
       center: true,
       resizable: false,
